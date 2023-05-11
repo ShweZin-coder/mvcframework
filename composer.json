@@ -1,0 +1,21 @@
+{
+    "name": "shwezin/mvcframework",
+    "description": "This is testing framework followed tutorial.",
+    "type": "framework",
+    "license": "sss",
+    "autoload": {
+        "psr-4": {
+            "app\\" : "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shwe Zin",
+            "email": "zins61301@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+        "php" : ">=7.4"
+    }
+}
