@@ -24,7 +24,7 @@ class Field{
                     %s
                 </div>
             </div>
-        ',$this->attribute, 
+        ',$this->model->getLabel($this->attribute), 
          $this->type,
          $this->attribute,
          $this->attribute,

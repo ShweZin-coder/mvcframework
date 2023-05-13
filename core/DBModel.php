@@ -2,8 +2,9 @@
 namespace app\core;
 use app\core\Model;
 abstract class DBModel extends Model{
-    abstract public function tableName() : string;
+    abstract public static function tableName() : string;
     abstract public function attributes() : array;
+    abstract public static function primaryKey() : string;
     public function save()
     {
         $tableName = $this->tableName();
@@ -23,5 +24,18 @@ abstract class DBModel extends Model{
     public static function prepare($sql)
     {
         return Application::$app->db->pdo->prepare($sql);
+    }
+    public static function findOne($where) // ['email' => admin@gmail.com,first_name => shwezin]
+    {
+        $tableName = static::tableName();
+        $attributes = array_keys($where);
+        $sql = implode("AND",array_map(fn($attr) => "$attr = :$attr",$attributes));
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+        foreach($where as $key => $item)
+        {
+            $statement->bindValue(":$key",$item);
+        }
+        $statement->execute();
+        return $statement->fetchObject(static::class);
     }
 }

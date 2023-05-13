@@ -1,7 +1,7 @@
 <?php 
 namespace app\models;
-use app\core\DBModel;
-class User extends DBModel{
+use app\core\UserModel;
+class User extends UserModel{
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
@@ -12,7 +12,7 @@ class User extends DBModel{
     public string $password = '';
     public string $confirm_password = '';
 
-    public function tableName() : string{
+    public static function tableName() : string{
         return 'users';
     }
 
@@ -34,10 +34,28 @@ class User extends DBModel{
             'confirm_password' => [self::RULE_REQUIRED,[self::RULE_MATCH, 'match' => 'password']]
         ];
     }
-
+    public static function primaryKey() : string
+    {
+        return 'id';
+    }
     public function attributes(): array
     {
         return ['first_name','last_name','status','email','password'];
     }
+    public function getDisplayName() : string
+    {
+        return $this->first_name .' '. $this->last_name;
 
+    }
+    public function labels():array
+    {
+        return [
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'email' => 'Email',
+            'password' => 'Password',
+            'confirm_password' => 'Confirm Password'
+        ];
+
+    }
 }
